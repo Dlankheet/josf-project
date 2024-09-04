@@ -66,8 +66,8 @@ jobs:
             echo -n "."
             sleep 1
           done
-          cd ..
-          
+          cd ../..
+
           java -jar "cli/josf-cli.jar" -r playbook "'$PLAYBOOK_NAME'" browser "'Headless Chrome'" retryCount "'0'" projectPath "'${GITHUB_WORKSPACE}'" || true
 
       # Commit playbook results
