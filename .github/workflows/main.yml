@@ -52,10 +52,8 @@ jobs:
       # Start JOSF
       - name: Start JOSF
         run: |
-          cd "JOSF/api"
           classes_dir="${GITHUB_WORKSPACE}/JOSF/action-packs"
-          classpath="josf-core.jar:$classes_dir/custom:$classes_dir/api:$classes_dir/selenese:$classes_dir/database"
-          ls
+          classpath="${GITHUB_WORKSPACE}/JOSF/api/josf-core.jar:$classes_dir/custom:$classes_dir/api:$classes_dir/selenese:$classes_dir/database"
           java -cp "$classpath" io.vertx.core.Launcher -conf config.json &
           echo "Waiting for JOSF to be online..."
           for i in {1..120}; do
@@ -66,9 +64,9 @@ jobs:
             echo -n "."
             sleep 1
           done
-          cd ../..
 
-          java -jar "cli/josf-cli.jar" -r playbook "'$PLAYBOOK_NAME'" browser "'Headless Chrome'" retryCount "'0'" projectPath "'${GITHUB_WORKSPACE}'" || true
+          ls
+          java -jar "${GITHUB_WORKSPACE}/JOSF/cli/josf-cli.jar" -r playbook "'$PLAYBOOK_NAME'" browser "'Headless Chrome'" retryCount "'0'" projectPath "'${GITHUB_WORKSPACE}'" || true
 
       # Commit playbook results
       - name: Commit Playbook Results
