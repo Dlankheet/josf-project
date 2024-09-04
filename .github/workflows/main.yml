@@ -43,8 +43,8 @@ jobs:
           cd "JOSF/api"
           classes_dir="${{ github.workspace }}/JOSF/action-packs"
           classpath="josf-core.jar:$classes_dir/custom:$classes_dir/api:$classes_dir/selenese:$classes_dir/database"
-          echo "$classpath"
-          java -cp "$classpath" io.vertx.core.Launcher -conf config.json > /dev/null &
+          echo "ls"
+          java -cp "$classpath" io.vertx.core.Launcher -conf config.json
           echo "Waiting for JOSF to be online..."
           for i in {1..120}; do
             if wget -q --spider http://localhost:8090/api/version; then
