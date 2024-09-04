@@ -27,7 +27,7 @@ jobs:
       # Set up Java and dependencies
       - name: Set up Java 21 and Dependencies
         run: |
-          sudo apt-get update -qq
+          sudo apt-get update && sudo apt-get upgrade -qq
           sudo apt-get install -y wget unzip chromium openjdk-21-jre git -qq
           wget -q -O "$JOSF_ZIP" "$JOSF_DOWNLOAD_URL"
           unzip -q "$JOSF_ZIP"
