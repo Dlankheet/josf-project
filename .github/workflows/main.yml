@@ -44,28 +44,12 @@ jobs:
         with:
           chrome-version: 128
           install-chromedriver: true
-          
-      - name: Restore JOSF from cache
-        id: cache-josf
-        uses: actions/cache@v3
-        with:
-          path: $GITHUB_WORKSPACE/JOSF  # The directory where the files will be unzipped
-          key: josf-${{ hashFiles('JOSF_VERSION.txt') }}  # Cache key based on the JOSF version file
     
       - name: Download and Unzip JOSF
-        if: steps.cache-josf.outputs.cache-hit != 'true'
         run: |
           wget -q -O "$GITHUB_WORKSPACE/josf.zip" "$JOSF_DOWNLOAD_URL"
           unzip -q "$GITHUB_WORKSPACE/josf.zip"
-          echo "3.1.0" > JOSF_VERSION.txt
         shell: bash
-      
-      - name: Cache JOSF
-        if: steps.cache-josf.outputs.cache-hit != 'true'
-        uses: actions/cache@v3
-        with:
-          path: JOSF # Cache the directory containing the extracted JOSF files
-          key: josf-${{ hashFiles('JOSF_VERSION.txt') }}  # Cache key based on the JOSF version file
 
       # Start JOSF
       - name: Start JOSF
@@ -86,7 +70,7 @@ jobs:
       - name: Execute playbook
         run: java -jar "${GITHUB_WORKSPACE}/JOSF/cli/josf-cli.jar" -r playbook "'$PLAYBOOK_NAME'" browser "'Headless Chrome'" retryCount "'0'" projectPath "'.'"
         continue-on-error: true
-        
+
       # Commit playbook results
       - name: Commit Playbook Results
         run: |
@@ -127,5 +111,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: josf-log
-          path: ${{ github.workspace }}/josf.log
+          path: ${{ github.workspace }}/JOSF/josf.log
           if-no-files-found: ignore

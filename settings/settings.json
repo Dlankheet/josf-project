@@ -3,7 +3,7 @@
   "generateProjectSummary" : false,
   "activeEnvironmentId" : null,
   "webAUTPreferences" : {
-    "browser" : "Chrome",
+    "browser" : "Headless Chrome",
     "stopWhenElementNotFound" : false,
     "downloadDrivers" : true
   },

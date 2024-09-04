@@ -16,6 +16,6 @@
     "displayName" : "Headless Chrome",
     "browserName" : "chrome",
     "capabilities" : { },
-    "arguments" : [ "--headless", "--remote-allow-origins=*" ]
+    "arguments" : [ "--headless", "--remote-allow-origins=*", "--disable-extensions", "--disable-dev-shm-usage", "--no-sandbox" ]
   } ]
 }
