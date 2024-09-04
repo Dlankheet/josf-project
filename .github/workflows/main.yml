@@ -25,26 +25,38 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Set up Java and dependencies
-      - name: Set up Java 21 and Dependencies
+      # Install necessary dependencies
+      - name: Install Dependencies
         run: |
-          sudo apt-get update && sudo apt-get upgrade -qq
-          sudo apt-get install -y wget unzip openjdk-21-jre git -qq
-          wget -O "$JOSF_ZIP" "$JOSF_DOWNLOAD_URL"
-          unzip "$JOSF_ZIP"
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-          sudo apt-get update -qq
-          sudo apt-get install -y google-chrome-stable -qq
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+
+      # Set up Java and dependencies
+      - name: Set up Java21
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 21
+      
+      # Set up Chrome and dependencies
+      - name: Set up Chrome
+       uses: browser-actions/setup-chrome@v1
+
+
+      # Download and unzip JOSF
+      - name: Download and Unzip JOSF
+        run: |
+          wget -q -O "$JOSF_ZIP" "$JOSF_DOWNLOAD_URL"
+          unzip -q "$JOSF_ZIP"
 
       # Start JOSF
       - name: Start JOSF
         run: |
           cd "JOSF/api"
-          classes_dir="${{ github.workspace }}/JOSF/action-packs"
+          classes_dir="${GITHUB_WORKSPACE}/JOSF/action-packs"
           classpath="josf-core.jar:$classes_dir/custom:$classes_dir/api:$classes_dir/selenese:$classes_dir/database"
-          echo "ls"
-          java -cp "$classpath" io.vertx.core.Launcher -conf config.json
+          ls
+          java -cp "$classpath" io.vertx.core.Launcher -conf config.json &
           echo "Waiting for JOSF to be online..."
           for i in {1..120}; do
             if wget -q --spider http://localhost:8090/api/version; then
@@ -59,7 +71,7 @@ jobs:
       # Execute Playbook
       - name: Execute Playbook
         run: |
-          java -jar "cli/josf-cli.jar" -r playbook "'$PLAYBOOK_NAME'" browser "'Headless Chrome'" retryCount "'0'" projectPath "'${{ github.workspace }}'" || true
+          java -jar "cli/josf-cli.jar" -r playbook "'$PLAYBOOK_NAME'" browser "'Headless Chrome'" retryCount "'0'" projectPath "'${GITHUB_WORKSPACE}'" || true
 
       # Commit playbook results
       - name: Commit Playbook Results
@@ -67,7 +79,7 @@ jobs:
           git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           git config user.name "$GIT_USER_NAME"
           git config user.email "$GIT_USER_EMAIL"
-          git add ${{ github.workspace }}/play-books/*
+          git add "${GITHUB_WORKSPACE}/play-books/"* || true
           git commit -m "Commit pipeline playbook results [skip ci]" || echo "Nothing to commit"
           git pull origin ${{ env.GIT_BRANCH }} || true
           git push origin HEAD:${{ env.GIT_BRANCH }} || true
@@ -75,10 +87,19 @@ jobs:
       # Search for generated JUnit file & Logfiles and push these as artifacts
       - name: Find and Move JUnit Report
         run: |
-          JUNIT_FILE=$(find . -name "*junit-report.xml")
-          echo "Found JUnit report $JUNIT_FILE"
-          mv "$JUNIT_FILE" "${{ github.workspace }}/junit-report.xml"
-          mv "${{ github.workspace }}/JOSF/api/logs/josf.log" "${{ github.workspace }}/josf.log"
+          JUNIT_FILE=$(find . -name "*junit-report.xml" -print -quit)
+          if [[ -n "$JUNIT_FILE" ]]; then
+            echo "Found JUnit report $JUNIT_FILE"
+            mv "$JUNIT_FILE" "${GITHUB_WORKSPACE}/junit-report.xml"
+          else
+            echo "JUnit report not found!"
+          fi
+
+          if [[ -f "${GITHUB_WORKSPACE}/JOSF/api/logs/josf.log" ]]; then
+            mv "${GITHUB_WORKSPACE}/JOSF/api/logs/josf.log" "${GITHUB_WORKSPACE}/josf.log"
+          else
+            echo "JOSF log not found!"
+          fi
 
       # Upload artifacts
       - name: Upload JUnit Report
@@ -86,9 +107,11 @@ jobs:
         with:
           name: junit-report
           path: ${{ github.workspace }}/junit-report.xml
+          if-no-files-found: ignore
 
       - name: Upload JOSF log
         uses: actions/upload-artifact@v3
         with:
           name: josf-log
           path: ${{ github.workspace }}/josf.log
+          if-no-files-found: ignore
