@@ -40,7 +40,7 @@ jobs:
       
       # Set up Chrome and dependencies
       - name: Set up Chrome
-       uses: browser-actions/setup-chrome@v1
+        uses: browser-actions/setup-chrome@v1
 
 
       # Download and unzip JOSF
