@@ -18,7 +18,7 @@ jobs:
   deploy_josf:
     runs-on: ubuntu-latest
     timeout-minutes: 75
-    
+
     permissions:
       contents: write  
 
@@ -76,6 +76,7 @@ jobs:
       # Commit playbook results
       - name: Commit Playbook Results
         run: |
+          ls -R
           git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           git config user.name "$GIT_USER_NAME"
           git config user.email "$GIT_USER_EMAIL"
@@ -85,7 +86,8 @@ jobs:
           git push origin HEAD:${{ env.GIT_BRANCH }} || true
         env:
           GIT_BRANCH: ${{ github.ref_name }}
-      # Search for generated JUnit file & Logfiles and push these as artifacts
+
+      # Search for generated JUnit file and push these as artifacts
       - name: Find and Move JUnit Report
         run: |
           JUNIT_FILE=$(find . -name "*junit-report.xml" -print -quit)
@@ -94,12 +96,6 @@ jobs:
             mv "$JUNIT_FILE" "${GITHUB_WORKSPACE}/junit-report.xml"
           else
             echo "JUnit report not found!"
-          fi
-
-          if [[ -f "${GITHUB_WORKSPACE}/JOSF/api/logs/josf.log" ]]; then
-            mv "${GITHUB_WORKSPACE}/JOSF/api/logs/josf.log" "${GITHUB_WORKSPACE}/josf.log"
-          else
-            echo "JOSF log not found!"
           fi
 
       # Upload artifacts
@@ -114,5 +110,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: josf-log
-          path: ${{ github.workspace }}/josf.log
+          path: ${{ github.workspace }}/JOSF/api/josf.log
           if-no-files-found: ignore
