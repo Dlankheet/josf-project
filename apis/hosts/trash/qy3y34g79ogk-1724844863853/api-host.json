@@ -1,0 +1,14 @@
+{
+  "apiType" : null,
+  "description" : null,
+  "definitionUrl" : "https://catfact.ninja/docs/api-docs.json",
+  "schemes" : [ "/", "https", "https" ],
+  "activeScheme" : "https",
+  "baseUrl" : "catfacts.ninja",
+  "basePath" : "",
+  "authentication" : null,
+  "tags" : [ ],
+  "id" : "qy3y34g79ogk",
+  "title" : "Cat Facts API",
+  "objectType" : null
+}

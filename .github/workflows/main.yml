@@ -1,0 +1,92 @@
+name: Deploy JOSF
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  JOSF_ZIP: "josf.zip"
+  JOSF_DOWNLOAD_URL: "https://www.josf.nl/wp-content/releases/beta/JOSF-server-gitlab.zip"
+  PLAYBOOK_NAME: "Testplaybook"
+  GIT_USER_NAME: "GitHub DevOps agent"
+  GIT_USER_EMAIL: "JOSF-github@valori.nl"
+  GIT_BRANCH: "main"
+
+jobs:
+  deploy_josf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Java and dependencies
+      - name: Set up Java 21 and Dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y wget unzip chromium openjdk-21-jre git -qq
+          wget -q -O "$JOSF_ZIP" "$JOSF_DOWNLOAD_URL"
+          unzip -q "$JOSF_ZIP"
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          sudo apt-get update -qq
+          sudo apt-get install -y google-chrome-stable -qq
+
+      # Start JOSF
+      - name: Start JOSF
+        run: |
+          cd "JOSF/api"
+          classes_dir="${{ github.workspace }}/JOSF/action-packs"
+          classpath="josf-core.jar:$classes_dir/custom:$classes_dir/api:$classes_dir/selenese:$classes_dir/database"
+          java -cp "$classpath" io.vertx.core.Launcher -conf config.json > /dev/null &
+          echo "Waiting for JOSF to be online..."
+          for i in {1..120}; do
+            if wget -q --spider http://localhost:8090/api/version; then
+              echo "JOSF is online!"
+              break
+            fi
+            echo -n "."
+            sleep 1
+          done
+          cd ..
+
+      # Execute Playbook
+      - name: Execute Playbook
+        run: |
+          java -jar "cli/josf-cli.jar" -r playbook "'$PLAYBOOK_NAME'" browser "'Headless Chrome'" retryCount "'0'" projectPath "'${{ github.workspace }}'" || true
+
+      # Commit playbook results
+      - name: Commit Playbook Results
+        run: |
+          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git config user.name "$GIT_USER_NAME"
+          git config user.email "$GIT_USER_EMAIL"
+          git add ${{ github.workspace }}/play-books/*
+          git commit -m "Commit pipeline playbook results [skip ci]" || echo "Nothing to commit"
+          git pull origin ${{ env.GIT_BRANCH }} || true
+          git push origin HEAD:${{ env.GIT_BRANCH }} || true
+
+      # Search for generated JUnit file & Logfiles and push these as artifacts
+      - name: Find and Move JUnit Report
+        run: |
+          JUNIT_FILE=$(find . -name "*junit-report.xml")
+          echo "Found JUnit report $JUNIT_FILE"
+          mv "$JUNIT_FILE" "${{ github.workspace }}/junit-report.xml"
+          mv "${{ github.workspace }}/JOSF/api/logs/josf.log" "${{ github.workspace }}/josf.log"
+
+      # Upload artifacts
+      - name: Upload JUnit Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: junit-report
+          path: ${{ github.workspace }}/junit-report.xml
+
+      - name: Upload JOSF log
+        uses: actions/upload-artifact@v3
+        with:
+          name: josf-log
+          path: ${{ github.workspace }}/josf.log

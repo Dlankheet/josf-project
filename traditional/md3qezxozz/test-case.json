@@ -1,0 +1,83 @@
+{
+  "steps" : [ {
+    "version" : "3.1.0",
+    "result" : null,
+    "message" : null,
+    "executionTimeMs" : 0,
+    "databaseAction" : null,
+    "webAction" : {
+      "actionName" : "Web browser",
+      "subAction" : "Navigate",
+      "options" : [ ],
+      "object" : {
+        "type" : "raw",
+        "object" : "",
+        "pageScannerQuery" : null,
+        "pageObjectReference" : null
+      },
+      "testdata" : {
+        "data" : "https://google.com",
+        "type" : "text"
+      },
+      "takeScreenshot" : "0",
+      "screenshot" : null,
+      "userDescription" : null
+    },
+    "apiAction" : null,
+    "pageActionReference" : null,
+    "dataSheetReference" : null,
+    "testStepGroup" : null,
+    "contextId" : null,
+    "hasBreakpoint" : false,
+    "isDisabled" : false
+  }, {
+    "version" : "3.1.0",
+    "result" : null,
+    "message" : null,
+    "executionTimeMs" : 0,
+    "databaseAction" : null,
+    "webAction" : {
+      "actionName" : "Verify",
+      "subAction" : "Verify Title",
+      "options" : [ {
+        "name" : "Is not",
+        "value" : false
+      }, {
+        "name" : "Ignore cases",
+        "value" : true
+      }, {
+        "name" : "Contains",
+        "value" : false
+      } ],
+      "object" : {
+        "type" : "raw",
+        "object" : "",
+        "pageScannerQuery" : null,
+        "pageObjectReference" : null
+      },
+      "testdata" : {
+        "data" : "Goegel",
+        "type" : "text"
+      },
+      "takeScreenshot" : "0",
+      "screenshot" : null,
+      "userDescription" : null
+    },
+    "apiAction" : null,
+    "pageActionReference" : null,
+    "dataSheetReference" : null,
+    "testStepGroup" : null,
+    "contextId" : null,
+    "hasBreakpoint" : false,
+    "isDisabled" : false
+  } ],
+  "testStepGroups" : null,
+  "title" : "Demo test - Fail",
+  "description" : null,
+  "id" : "md3qezxozz",
+  "dataDrivenStorageId" : null,
+  "tags" : [ "testcase" ],
+  "skip" : false,
+  "skipReason" : null,
+  "issueTracker" : null
+}

@@ -1,0 +1,43 @@
+{
+  "steps" : [ {
+    "version" : "3.1.0",
+    "result" : null,
+    "message" : null,
+    "executionTimeMs" : 0,
+    "databaseAction" : null,
+    "webAction" : {
+      "actionName" : "Web browser",
+      "subAction" : "Navigate",
+      "options" : [ ],
+      "object" : {
+        "type" : "raw",
+        "object" : "",
+        "pageScannerQuery" : null,
+        "pageObjectReference" : null
+      },
+      "testdata" : {
+        "data" : "https://google.com",
+        "type" : "text"
+      },
+      "takeScreenshot" : "0",
+      "screenshot" : null,
+      "userDescription" : null
+    },
+    "apiAction" : null,
+    "pageActionReference" : null,
+    "dataSheetReference" : null,
+    "testStepGroup" : null,
+    "contextId" : null,
+    "hasBreakpoint" : false,
+    "isDisabled" : false
+  } ],
+  "testStepGroups" : null,
+  "title" : "Demo test - Skip",
+  "description" : null,
+  "id" : "1dxqyp58m5",
+  "dataDrivenStorageId" : null,
+  "tags" : [ "testcase" ],
+  "skip" : true,
+  "skipReason" : "Test skipping",
+  "issueTracker" : null
+}

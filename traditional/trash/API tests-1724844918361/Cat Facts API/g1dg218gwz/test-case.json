@@ -1,0 +1,81 @@
+{
+  "steps" : [ {
+    "version" : "3.1.0",
+    "result" : null,
+    "message" : null,
+    "executionTimeMs" : 0,
+    "databaseAction" : null,
+    "webAction" : null,
+    "apiAction" : null,
+    "pageActionReference" : null,
+    "dataSheetReference" : null,
+    "testStepGroup" : {
+      "groupType" : 0,
+      "groupName" : "API call",
+      "testSteps" : [ ],
+      "groupCondition" : null
+    },
+    "contextId" : null,
+    "hasBreakpoint" : false,
+    "isDisabled" : false
+  }, {
+    "version" : "3.1.0",
+    "result" : null,
+    "message" : null,
+    "executionTimeMs" : 0,
+    "databaseAction" : null,
+    "webAction" : null,
+    "apiAction" : null,
+    "pageActionReference" : null,
+    "dataSheetReference" : null,
+    "testStepGroup" : {
+      "groupType" : 0,
+      "groupName" : "Verifications",
+      "testSteps" : [ {
+        "version" : "3.1.0",
+        "result" : null,
+        "message" : null,
+        "executionTimeMs" : 0,
+        "databaseAction" : null,
+        "webAction" : {
+          "actionName" : "Verify status code",
+          "subAction" : "",
+          "options" : [ ],
+          "object" : {
+            "type" : "raw",
+            "object" : "",
+            "pageScannerQuery" : null,
+            "pageObjectReference" : null
+          },
+          "testdata" : {
+            "data" : "${data_expected status code}",
+            "type" : "text"
+          },
+          "takeScreenshot" : "0",
+          "screenshot" : null,
+          "userDescription" : null
+        },
+        "apiAction" : null,
+        "pageActionReference" : null,
+        "dataSheetReference" : null,
+        "testStepGroup" : null,
+        "contextId" : null,
+        "hasBreakpoint" : false,
+        "isDisabled" : false
+      } ],
+      "groupCondition" : null
+    },
+    "contextId" : null,
+    "hasBreakpoint" : false,
+    "isDisabled" : false
+  } ],
+  "testStepGroups" : null,
+  "title" : "Get a list of facts",
+  "description" : null,
+  "id" : "g1dg218gwz",
+  "dataDrivenStorageId" : "e7e7e4qr2qr8",
+  "tags" : [ ],
+  "skip" : false,
+  "skipReason" : null,
+  "issueTracker" : null
+}

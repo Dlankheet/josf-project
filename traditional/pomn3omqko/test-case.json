@@ -1,0 +1,64 @@
+{
+  "steps" : [ {
+    "version" : "3.1.0",
+    "result" : null,
+    "message" : null,
+    "executionTimeMs" : 0,
+    "databaseAction" : null,
+    "webAction" : null,
+    "apiAction" : {
+      "requestId" : "55y5yx14xy7g",
+      "response" : null,
+      "sentRequest" : null,
+      "hasBeenSent" : false,
+      "variables" : [ ],
+      "path" : null
+    },
+    "pageActionReference" : null,
+    "dataSheetReference" : null,
+    "testStepGroup" : null,
+    "contextId" : null,
+    "hasBreakpoint" : false,
+    "isDisabled" : false
+  }, {
+    "version" : "3.1.0",
+    "result" : null,
+    "message" : null,
+    "executionTimeMs" : 0,
+    "databaseAction" : null,
+    "webAction" : {
+      "actionName" : "Verify status code",
+      "subAction" : "",
+      "options" : [ ],
+      "object" : {
+        "type" : "raw",
+        "object" : "",
+        "pageScannerQuery" : null,
+        "pageObjectReference" : null
+      },
+      "testdata" : {
+        "data" : "=200",
+        "type" : "text"
+      },
+      "takeScreenshot" : "0",
+      "screenshot" : null,
+      "userDescription" : null
+    },
+    "apiAction" : null,
+    "pageActionReference" : null,
+    "dataSheetReference" : null,
+    "testStepGroup" : null,
+    "contextId" : null,
+    "hasBreakpoint" : false,
+    "isDisabled" : false
+  } ],
+  "testStepGroups" : null,
+  "title" : "Demot Test API - PAss",
+  "description" : null,
+  "id" : "pomn3omqko",
+  "dataDrivenStorageId" : null,
+  "tags" : [ "testcase" ],
+  "skip" : false,
+  "skipReason" : null,
+  "issueTracker" : null
+}

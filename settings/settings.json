@@ -1,0 +1,34 @@
+{
+  "baseUrl" : null,
+  "generateProjectSummary" : false,
+  "activeEnvironmentId" : null,
+  "webAUTPreferences" : {
+    "browser" : "Chrome",
+    "stopWhenElementNotFound" : false,
+    "downloadDrivers" : true
+  },
+  "continueOnError" : false,
+  "securitySettings" : {
+    "certificateSettings" : {
+      "storePath" : "/Library/Java/JavaVirtualMachines/jdk-22.jdk/Contents/Home\\lib\\security\\cacerts",
+      "storePassword" : "changeit",
+      "storeType" : "jks",
+      "sslCheckingDisabled" : false
+    },
+    "proxySettings" : {
+      "proxyHost" : null,
+      "proxyPort" : 8080,
+      "proxyUsername" : null,
+      "proxyPassword" : null,
+      "isEnabled" : false,
+      "isEnabledForDriverDownload" : false,
+      "isEnabledForBrowserProxy" : false,
+      "isEnabledForAPIRequests" : false,
+      "isEnabledForGIT" : false,
+      "useCredentials" : false,
+      "autoDetect" : false,
+      "useSystemProxy" : false
+    }
+  },
+  "licence" : "Valori B.V. - Development Pipeline\r\n1WW6ZlhepU/xNXZ6huLh2t9lLmgOP5skQSQmzGgacBxM1DCE4MpNuSoU+Z6E+VtSQ7sqvaUp5DXqheUhiZCSVFguo1KO913CJsuiRwNoaVA23HOJ6bzfvxTBj97tisLT3xgKbSLiWRu1w4fQbBDNJlGuFASuMqbbLUIGR4DaBfrOV7JbExXDROaSeViwJjckuifXfOuZb/QKsaS4kSYxTHTK2kWFxQ51"
+}
