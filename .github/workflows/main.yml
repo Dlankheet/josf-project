@@ -44,13 +44,21 @@ jobs:
         with:
           chrome-version: 128
           install-chromedriver: true
-
-
-      # Download and unzip JOSF
+          
+      - name: Cache JOSF
+        uses: actions/cache@v3
+        with:
+          path: JOSF # Cache the extracted JOSF directory
+          key: ${{ runner.os }}-josf-${{ hashFiles('path-to-josf-version-file') }}
+          restore-keys: |
+            ${{ runner.os }}-josf-
+    
+        # Download and unzip JOSF if cache is not hit
       - name: Download and Unzip JOSF
+        if: steps.cache.outputs.cache-hit != 'true' # Only download if cache is missed
         run: |
-          wget -q -O "$JOSF_ZIP" "$JOSF_DOWNLOAD_URL"
-          unzip -q "$JOSF_ZIP"
+            wget -q -O "$JOSF_ZIP" "$JOSF_DOWNLOAD_URL"
+            unzip -q "$JOSF_ZIP"
 
       # Start JOSF
       - name: Start JOSF
@@ -68,7 +76,8 @@ jobs:
             sleep 1
           done
 
-          java -jar "${GITHUB_WORKSPACE}/JOSF/cli/josf-cli.jar" -r playbook "'$PLAYBOOK_NAME'" browser "'Headless Chrome'" retryCount "'0'" projectPath "'.'" || true
+      - name: Execute playbook
+        run: java -jar "${GITHUB_WORKSPACE}/JOSF/cli/josf-cli.jar" -r playbook "'$PLAYBOOK_NAME'" browser "'Headless Chrome'" retryCount "'0'" projectPath "'.'"
 
       # Commit playbook results
       - name: Commit Playbook Results
