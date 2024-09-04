@@ -10,7 +10,7 @@ on:
 env:
   JOSF_ZIP: "josf.zip"
   JOSF_DOWNLOAD_URL: "https://www.josf.nl/wp-content/releases/beta/JOSF-server-gitlab.zip"
-  PLAYBOOK_NAME: "Testplaybook"
+  PLAYBOOK_NAME: "Testcase"
   GIT_USER_NAME: "GitHub DevOps agent"
   GIT_USER_EMAIL: "JOSF-github@valori.nl"
   GIT_BRANCH: "main"
