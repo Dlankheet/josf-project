@@ -41,6 +41,9 @@ jobs:
       # Set up Chrome and dependencies
       - name: Set up Chrome
         uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 128
+          install-chromedriver: true
 
 
       # Download and unzip JOSF
