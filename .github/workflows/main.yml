@@ -45,23 +45,27 @@ jobs:
           chrome-version: 128
           install-chromedriver: true
           
-  
-        # Download and unzip JOSF if cache is not hit
-      - name: Cache JOSF
-        id: josf-cache
-        uses: actions/cache@v4
+      - name: Restore JOSF from cache
+        id: cache-josf
+        uses: actions/cache@v3
         with:
-          path: |
-            ${{ github.workspace }}/josf.zip
-            ${{ github.workspace }}/unzipped-josf
-          key: ${{ runner.os }}-${{ hashFiles('**/josf.zip') }}
-
+          path: $GITHUB_WORKSPACE/JOSF  # The directory where the files will be unzipped
+          key: josf-${{ hashFiles('JOSF_VERSION.txt') }}  # Cache key based on the JOSF version file
+    
       - name: Download and Unzip JOSF
-        if: steps.josf-cache.outputs.cache-hit != 'true'
+        if: steps.cache-josf.outputs.cache-hit != 'true'
         run: |
           wget -q -O "$GITHUB_WORKSPACE/josf.zip" "$JOSF_DOWNLOAD_URL"
           unzip -q "$GITHUB_WORKSPACE/josf.zip"
+          echo "3.1.0" > JOSF_VERSION.txt
         shell: bash
+      
+      - name: Cache JOSF
+        if: steps.cache-josf.outputs.cache-hit != 'true'
+        uses: actions/cache@v3
+        with:
+          path: JOSF # Cache the directory containing the extracted JOSF files
+          key: josf-${{ hashFiles('JOSF_VERSION.txt') }}  # Cache key based on the JOSF version file
 
       # Start JOSF
       - name: Start JOSF
