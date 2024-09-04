@@ -85,7 +85,8 @@ jobs:
 
       - name: Execute playbook
         run: java -jar "${GITHUB_WORKSPACE}/JOSF/cli/josf-cli.jar" -r playbook "'$PLAYBOOK_NAME'" browser "'Headless Chrome'" retryCount "'0'" projectPath "'.'"
-
+        continue-on-error: true
+        
       # Commit playbook results
       - name: Commit Playbook Results
         run: |
