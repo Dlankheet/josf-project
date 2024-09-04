@@ -30,8 +30,8 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get upgrade -qq
           sudo apt-get install -y wget unzip openjdk-21-jre git -qq
-          wget -q -O "$JOSF_ZIP" "$JOSF_DOWNLOAD_URL"
-          unzip -q "$JOSF_ZIP"
+          wget -O "$JOSF_ZIP" "$JOSF_DOWNLOAD_URL"
+          unzip "$JOSF_ZIP"
           wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
           echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
           sudo apt-get update -qq
@@ -43,6 +43,7 @@ jobs:
           cd "JOSF/api"
           classes_dir="${{ github.workspace }}/JOSF/action-packs"
           classpath="josf-core.jar:$classes_dir/custom:$classes_dir/api:$classes_dir/selenese:$classes_dir/database"
+          echo "$classpath"
           java -cp "$classpath" io.vertx.core.Launcher -conf config.json > /dev/null &
           echo "Waiting for JOSF to be online..."
           for i in {1..120}; do
