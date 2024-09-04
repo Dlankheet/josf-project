@@ -13,12 +13,14 @@ env:
   PLAYBOOK_NAME: "Testcase"
   GIT_USER_NAME: "GitHub DevOps agent"
   GIT_USER_EMAIL: "JOSF-github@valori.nl"
-  GIT_BRANCH: "main"
 
 jobs:
   deploy_josf:
     runs-on: ubuntu-latest
     timeout-minutes: 75
+    
+    permissions:
+      contents: write  
 
     steps:
       # Checkout the repository
@@ -50,7 +52,7 @@ jobs:
           wget -q -O "$GITHUB_WORKSPACE/josf.zip" "$JOSF_DOWNLOAD_URL"
           unzip -q "$GITHUB_WORKSPACE/josf.zip"
         shell: bash
-
+        
       # Start JOSF
       - name: Start JOSF
         run: |
@@ -81,7 +83,8 @@ jobs:
           git commit -m "Commit pipeline playbook results [skip ci]" || echo "Nothing to commit"
           git pull origin ${{ env.GIT_BRANCH }} || true
           git push origin HEAD:${{ env.GIT_BRANCH }} || true
-
+        env:
+          GIT_BRANCH: ${{ github.ref_name }}
       # Search for generated JUnit file & Logfiles and push these as artifacts
       - name: Find and Move JUnit Report
         run: |
@@ -111,5 +114,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: josf-log
-          path: ${{ github.workspace }}/JOSF/josf.log
+          path: ${{ github.workspace }}/josf.log
           if-no-files-found: ignore
