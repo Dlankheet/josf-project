@@ -47,10 +47,21 @@ jobs:
           
   
         # Download and unzip JOSF if cache is not hit
+      - name: Cache JOSF
+        id: josf-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/josf.zip
+            ${{ github.workspace }}/unzipped-josf
+          key: ${{ runner.os }}-${{ hashFiles('**/josf.zip') }}
+
       - name: Download and Unzip JOSF
+        if: steps.josf-cache.outputs.cache-hit != 'true'
         run: |
-            wget -q -O "$JOSF_ZIP" "$JOSF_DOWNLOAD_URL"
-            unzip -q "$JOSF_ZIP"
+          wget -q -O "$GITHUB_WORKSPACE/josf.zip" "$JOSF_DOWNLOAD_URL"
+          unzip -q "$GITHUB_WORKSPACE/josf.zip"
+        shell: bash
 
       # Start JOSF
       - name: Start JOSF
