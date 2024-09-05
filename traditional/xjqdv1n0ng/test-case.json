@@ -16,7 +16,7 @@
         "pageObjectReference" : null
       },
       "testdata" : {
-        "data" : "https://google.com",
+        "data" : "${URL}",
         "type" : "text"
       },
       "takeScreenshot" : "0",
@@ -56,7 +56,7 @@
         "pageObjectReference" : null
       },
       "testdata" : {
-        "data" : "Google",
+        "data" : "${Title}",
         "type" : "text"
       },
       "takeScreenshot" : "0",
@@ -72,10 +72,10 @@
     "isDisabled" : false
   } ],
   "testStepGroups" : null,
-  "title" : "Demo test - Pass",
+  "title" : "Datadriven test - Pass",
   "description" : null,
-  "id" : "k2okvezr3z",
-  "dataDrivenStorageId" : null,
+  "id" : "xjqdv1n0ng",
+  "dataDrivenStorageId" : "xygyxyx3gx23",
   "tags" : [ "testcase" ],
   "skip" : false,
   "skipReason" : null,

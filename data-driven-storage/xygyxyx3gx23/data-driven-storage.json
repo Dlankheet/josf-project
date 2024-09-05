@@ -1,0 +1,49 @@
+{
+  "objectType" : "DataDrivenStorage",
+  "id" : "xygyxyx3gx23",
+  "title" : "urls-to-navigate",
+  "description" : null,
+  "objectType" : null,
+  "variableRunDataList" : [ {
+    "active" : true,
+    "data" : [ {
+      "key" : "URL",
+      "value" : "https://google.com"
+    }, {
+      "key" : "Title",
+      "value" : "Google"
+    } ],
+    "name" : "Google"
+  }, {
+    "active" : true,
+    "data" : [ {
+      "key" : "URL",
+      "value" : "https://www.xolphin.nl"
+    }, {
+      "key" : "Title",
+      "value" : "Xolphin SSL Certificaten en Digitale Handtekeningen"
+    } ],
+    "name" : "Xolphin"
+  }, {
+    "active" : true,
+    "data" : [ {
+      "key" : "URL",
+      "value" : "https://facebook.com"
+    }, {
+      "key" : "Title",
+      "value" : "Facebook - Meld je aan of registreer je"
+    } ],
+    "name" : "Facebook"
+  }, {
+    "active" : true,
+    "data" : [ {
+      "key" : "URL",
+      "value" : "https://duckduckgo.com"
+    }, {
+      "key" : "Title",
+      "value" : "DuckDuckGo — Privacy, simplified."
+    } ],
+    "name" : "DuckDuckGo"
+  } ],
+  "type" : "DATA_DRIVEN"
+}
